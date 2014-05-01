@@ -21,7 +21,7 @@ object Face {
   val faces = List(Jack, Queen, King, Ace)
 }
 
-sealed abstract class Card extends Ordered[Card] {
+sealed abstract class Card extends Ordered[Card] { // extends ordered of itself?
   import Face._
   def value: Int
   def suit: Suit
@@ -34,7 +34,7 @@ sealed abstract class Card extends Ordered[Card] {
   }
   def compare(that: Card): Int = this.value - that.value
   def equals(that: Card): Boolean = compare(that) == 0
-  override def hashCode = 42 * value.hashCode
+  override def hashCode = 42 * value.hashCode  // why?
   override def toString = s"$value of $suit"
 }
 

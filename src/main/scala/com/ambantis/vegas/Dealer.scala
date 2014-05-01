@@ -41,7 +41,7 @@ class Dealer(name: String, numDecks: Int, numRounds: Int, players: List[ActorRef
 
   private var rounds: Int = numRounds
 
-  // This represents the players at the table,
+  // This represents the players at the table,, each has a bet value and a done-ness
   private var seats = mutable.HashMap[ActorRef, (Int, Boolean)]()
 
   // converts list of players to mutable.HashMap representing seats at the playing table
@@ -53,7 +53,7 @@ class Dealer(name: String, numDecks: Int, numRounds: Int, players: List[ActorRef
     seats update(player, (amt, true))
   }
   private def leaveTable(player: ActorRef): Unit = { seats remove player }
-  private def allBetsIn: Boolean = seats.forall(_._2._1 > 0)
+  private def allBetsIn: Boolean = seats.forall(_._2._1 > 0) // forall: `true` if the given predicate holds for all values
   private def playersDone: Boolean = seats.forall(_._2._2 == true)
   private def scoringDone: Boolean = seats.forall(x => x._2._1 == 0 && !x._2._2)
 
@@ -100,7 +100,7 @@ class Dealer(name: String, numDecks: Int, numRounds: Int, players: List[ActorRef
 
     case Score(_, _) =>
       playerDone(sender)
-      stash()
+      stash()  // save this message for later
       if (playersDone) {
         while(!hand.isBust && hand.hardTotal < 17) hand += card
         println(s"dealer has a $hand")

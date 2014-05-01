@@ -31,7 +31,7 @@ class Casino(name: String, reaper: ActorRef) extends Actor {
       dealer ! GetToWork
 
     case DealerDone =>
-      self ! PoisonPill
+      self ! PoisonPill // Terminates the Actor permanently (part of Actor API)
   }
 }
 

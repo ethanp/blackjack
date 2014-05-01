@@ -33,3 +33,4 @@ makeVersionProperties := {
   IO.write(propFile, content)
   Seq(propFile)
 }
+
